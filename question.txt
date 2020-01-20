@@ -1,0 +1,24 @@
+Write down the answers to the following questions in your notebook (rewatch the video if you need to.)
+
+Who initiates an HTTP request?
+the user
+
+How does the server match the correct view function to the HTTP request?
+uwww.example.come/contact in URL will look for /contact route in server.py, if available, routes to 
+provided html page.
+
+Where does a form submit data to?
+When a user submits a form, the data goes to /store_form, upon succesful registration, 
+data will be registered into the database accordingly.
+
+What happens when we return a redirect?
+it goes from /store_form to /store, and a new GET request is issued to 
+the server to render the /store's information. Typically used to redirect
+user to where they had left off.
+
+What happens when we return a render?
+it renders the /store's information, but can also do much complicated task 
+along with it. Typically used to take user to further process after certain task.
+
+Why do we redirect rather than render when we successfully save?
+In this case, we can actually used both? just need to remove 'name=request...' the render_template.
