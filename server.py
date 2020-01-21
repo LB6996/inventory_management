@@ -60,9 +60,10 @@ def create_store():
 
     if s.save():
         flash("successfully saved")
-        # return render_template('store.html', name=request.form.get['name'])
         return redirect(url_for('store'))
     else:
+        for e in s.errors:
+            flash(e)
         return render_template('store.html', name=request.form['name'])
 
 @app.route("/warehouse")
@@ -80,7 +81,7 @@ def create_warehouse():
         flash("successfully saved")
         return redirect(url_for('warehouse'))
     else:
-        return render_template('warehouse.html')
+        return render_template('warehouse.html', name=request.form['name'], errors=s.errors)
 
 
 if __name__ == '__main__':
