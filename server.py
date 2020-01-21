@@ -30,7 +30,28 @@ def index():
 
 @app.route("/store")
 def store():
-    return render_template('store.html')
+    store_list = Store.select()
+    return render_template('store.html', store_list=store_list)
+
+
+@app.route("/store/<id>")
+def store_show(id):
+    store = Store.get_by_id(id)
+    return render_template('store_show.html', store=store)
+
+
+@app.route("/store/<sid>/update", methods=["POST"])
+def edit_store(sid):
+    new_name =  Store.update(name = request.form.get('new_name')).where(Store.id == sid)
+    new_name.execute()
+    return redirect(url_for('store'))
+
+
+@app.route("/store/<id>/delete", methods=["POST"])
+def store_delete(id):
+    store = Store.get_by_id(id)
+    store.delete_instance()
+    return redirect(url_for('store'))
 
 
 @app.route("/store_form", methods=["POST"])
@@ -39,10 +60,10 @@ def create_store():
 
     if s.save():
         flash("successfully saved")
-        # return render_template('store.html', name=request.args['name'])
+        # return render_template('store.html', name=request.form.get['name'])
         return redirect(url_for('store'))
     else:
-        return render_template('store.html', name=request.form.get('name'))
+        return render_template('store.html', name=request.form['name'])
 
 @app.route("/warehouse")
 def warehouse():
@@ -53,7 +74,7 @@ def warehouse():
 def create_warehouse():
     w_location = request.form.get('w_location')
     s_id = Store.get_by_id(request.form.get('s_id'))
-    w = Warehouse(location=w_location, store_id=s_id)
+    w = Warehouse(location=w_location, store=s_id)
 
     if w.save():
         flash("successfully saved")

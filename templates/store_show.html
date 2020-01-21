@@ -1,0 +1,14 @@
+{% extends ("_layout.html") %}
+
+{% block content %}
+<div class="container m-5">
+    <h1>{{ store.name }}</h1>
+    <h5>Warehouse number : </h5>
+    <h5>{{ store.warehouses.count() }}</h5>
+    <form action="{{ url_for('edit_store', sid=store.id) }}" method="POST">
+        <input type="text" class="form-control" name="new_name">
+        <button type="submit" class="btn btn-primary">Update</button>
+    </form>
+
+</div>
+{% endblock %}
